@@ -301,22 +301,22 @@ Windows pod with secrets mapped to environment variables
 
 {{< codenew file="windows/secret-pod.yaml" >}}
 
-Windows Pod with configMap values mapped to environment variables
+Windows Pod with `configMap` values mapped to environment variables
 
 {{< codenew file="windows/configmap-pod.yaml" >}}
 
 ### Volumes
-Some supported Volume Mounts are local, emptyDir, hostPath.  One thing to remember is that paths must either be escaped, or use forward slashes, for example `mountPath: "C:\\etc\\foo"` or `mountPath: "C:/etc/foo"`.
+There's some support for Volume Mounts, including `local`, `emptyDir`, and `hostPath`. Windows paths will need either to use forward slashes, or be escaped. For example: `mountPath: "C:\\etc\\foo"` or `mountPath: "C:/etc/foo"`.
 
 Persistent Volume Claims are supported for supported volume types.
 
 **Examples:**
 
-Windows pod with a hostPath volume
+Windows pod with a `hostPath` volume
 
 {{< codenew file="windows/hostpath-volume-pod.yaml" >}}
 
-Windows pod with multiple emptyDir volumes
+Windows pod with multiple `emptyDir` volumes
 
 {{< codenew file="windows/emptydir-pod.yaml" >}}
 
