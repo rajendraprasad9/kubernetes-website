@@ -328,7 +328,7 @@ DaemonSets are supported
 
 ### Metrics
 
-Windows Stats use a hybrid model: pod and container level stats come from CRI (via dockershim), while node level stats come from the "winstats" package that exports cadvisor like data structures using windows specific perf counters from the node.
+Windows Stats use a hybrid model: pod and container level stats come from CRI (via dockershim), while node level stats come from the "winstats" package that exports [cadvisor](https://github.com/google/cadvisor)-like data structures using windows specific perf counters from the node.
 
 ### Container Resources
 
