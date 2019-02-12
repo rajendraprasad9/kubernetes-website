@@ -362,13 +362,13 @@ sc.exe create $component_name binPath= "<path_to_binary> --windows-service <othe
 sc.exe create kubelet binPath= "C:\kubelet.exe --windows-service --hostname-override 'minion' --more-arguments-here"
 
 # Start the services.
-Start-Service kubelet; Start-Service kube-proxy
+Get-Service kubelet,kube-proxy | Start-Service
 
 # Stop the services. Use -Force option to make sure.
-Stop-Service kubelet ; Stop-Service kube-proxy
+Get-Service kubelet,kube-proxy | Stop-Service
 
-# Check service status
-Get-Service kubelet; Get-Service kube-proxy;
+# Check service status.
+Get-Service kubelet,kube-proxy
 ```
 
 #### Examples (`cmd.exe`)
