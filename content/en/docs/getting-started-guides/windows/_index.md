@@ -260,9 +260,7 @@ Today, Windows OVN&OVS CNI plugin is based on ovn_cni.exe which can be downloade
 ```
 Where `$SUBNET` is the subnet that was used in the previous ```docker network create``` command.
 
-For a complete guide on Google Cloud Platform (GCP), namely Google Compute Engine (GCE) visit [this](https://github.com/apprenda/kubernetes-ovn-heterogeneous-cluster#heterogeneous-kubernetes-cluster-on-top-of-ovn).
-
-For a complete guide on Amazon Web Services (AWS) visit [this](https://github.com/justeat/kubernetes-windows-aws-ovs#kubernetes-on-windows-in-aws-using-ovn).
+You can read more for specific cloud services in third-party detailed guides for [deploying OVN on Google Compute Engine](https://github.com/apprenda/kubernetes-ovn-heterogeneous-cluster#heterogeneous-kubernetes-cluster-on-top-of-ovn) (GCE) or [deploying OVN on Amazon Web Services](https://github.com/justeat/kubernetes-windows-aws-ovs#kubernetes-on-windows-in-aws-using-ovn) (AWS).
 
 ## Starting the Cluster
 To start your cluster, you'll need to start both the Linux-based Kubernetes control plane, and the Windows Server-based Kubernetes node components (kubelet and kube-proxy). For the OVS & OVN only the kubelet is required.
