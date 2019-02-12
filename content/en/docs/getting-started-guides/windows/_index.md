@@ -186,7 +186,7 @@ e.g.
 #### For 3. Open vSwitch (OVS) & Open Virtual Network (OVN) with Overlay
 
 {{< note >}}
-Fully automated setup via Ansible playbooks is [available](https://github.com/openvswitch/ovn-kubernetes/tree/master/contrib).
+The OpenVSwitch project publishes [Ansible playbooks](https://github.com/openvswitch/ovn-kubernetes/tree/master/contrib) that you can use for a fully automated setup.
 {{< /note >}}
 
 For manual setup, continue the following steps.
