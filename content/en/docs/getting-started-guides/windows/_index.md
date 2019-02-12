@@ -223,7 +223,7 @@ For overlay, OVS on Windows requires a transparent docker network to function pr
 docker network create -d transparent --gateway $GATEWAY_IP --subnet $SUBNET `
     -o com.docker.network.windowsshim.interface="$INTERFACE_ALIAS" external
 ```
-Where $SUBNET is the minion subnet which will be used to spawn pods on (the one which will be used by kubernetes), $GATEWAY_IP is the first IP of the $SUBNET and $INTERFACE_ALIAS is the interface used for creating the overlay tunnels (must have connectivity with the rests of the OVN hosts).
+Where `$SUBNET` is the minion subnet which will be used to spawn pods on (the one which will be used by kubernetes), `$GATEWAY_IP` is the first IP of the `$SUBNET` and `$INTERFACE_ALIAS` is the interface used for creating the overlay tunnels (must have connectivity with the rests of the OVN hosts).
 Example:
 ```powershell
 docker network create -d transparent --gateway 10.0.1.1 --subnet 10.0.1.0/24 `
@@ -258,7 +258,7 @@ Today, Windows OVN&OVS CNI plugin is based on ovn_cni.exe which can be downloade
          }
 }
 ```
-Where $SUBNET is the subnet that was used in the previous ```docker network create``` command.
+Where `$SUBNET` is the subnet that was used in the previous ```docker network create``` command.
 
 For a complete guide on Google Cloud Platform (GCP), namely Google Compute Engine (GCE) visit [this](https://github.com/apprenda/kubernetes-ovn-heterogeneous-cluster#heterogeneous-kubernetes-cluster-on-top-of-ovn).
 
