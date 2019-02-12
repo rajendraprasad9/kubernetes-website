@@ -221,7 +221,7 @@ For a GUI setup, you need to install **OVN Host** alongside the default installa
 
 The installer propagates new environment variables. To make sure these are up to date, please open a new command shell or log out and back in again.
 
-For overlay, OVS on Windows requires a transparent docker network to function properly. Please use the following to create a transparent docker network which will be used by OVS. From powershell:
+For overlay, OVS on Windows requires a transparent docker network to function properly. Please use the following to create a transparent docker network which will be used by OVS. From PowerShell:
 ```powershell
 docker network create -d transparent --gateway $GATEWAY_IP --subnet $SUBNET `
     -o com.docker.network.windowsshim.interface="$INTERFACE_ALIAS" external
@@ -232,7 +232,7 @@ Example:
 docker network create -d transparent --gateway 10.0.1.1 --subnet 10.0.1.0/24 `
     -o com.docker.network.windowsshim.interface="Ethernet0" external
 ```
-After creating the docker network please run the next commands from powershell. (creates an OVS bridge, adds the interface under the bridge and enables the OVS forwarding switch extension)
+After creating the docker network please run the next commands from PowerShell. (creates an OVS bridge, adds the interface under the bridge and enables the OVS forwarding switch extension)
 ```powershell
 $a = Get-NetAdapter | where Name -Match HNSTransparent
 Rename-NetAdapter $a[0].Name -NewName HNSTransparent
