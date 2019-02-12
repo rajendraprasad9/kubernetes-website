@@ -284,7 +284,7 @@ The page on [joining nodes to the cluster](https://kubernetes.io/docs/setup/inde
 The examples listed below assume running Windows nodes on Windows Server 1709. If you are running Windows Server 2016, the examples will need the image updated to specify `image: microsoft/windowsservercore:ltsc2016`. This is due to the requirement for container images to match the host operating system version when using process isolation. Not specifying a tag will implicitly use the `:latest` tag which can lead to surprising behaviors. Please consult with [https://hub.docker.com/r/microsoft/windowsservercore/](https://hub.docker.com/r/microsoft/windowsservercore/) for additional information on Windows Server Core image tagging.
 
 ### Scheduling Pods on Windows
-Because your cluster has both Linux and Windows nodes, you must explicitly set the `nodeSelector` constraint to be able to schedule pods to Windows nodes. You must set nodeSelector with the label `beta.kubernetes.io/os` to the value `windows`; see the following example:
+Because your cluster has both Linux and Windows nodes, you must explicitly set the `nodeSelector` constraint to be able to schedule pods to Windows nodes. You must set `nodeSelector` with the label `beta.kubernetes.io/os` to the value `windows`; see the following example:
 
 {{< codenew file="windows/simple-pod.yaml" >}}
 
@@ -344,7 +344,7 @@ Hyper-V containers are supported as experimental in v1.10. To create a Hyper-V c
 
 ### Kubelet and kube-proxy can now run as Windows services
 
-Starting with kubernetes v1.11, kubelet and kube-proxy can run as Windows services.
+Starting with kubernetes v1.11, `kubelet` and `kube-proxy` can run as Windows services.
 
 This means that you can now register them as Windows services via `sc` command. More details about how to create Windows services with `sc` can be found [here](https://support.microsoft.com/en-us/help/251192/how-to-create-a-windows-service-by-using-sc-exe).
 
