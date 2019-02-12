@@ -63,6 +63,7 @@ Windows supports the CNI network model and uses plugins to interface with the Wi
 In this topology, networking is achieved using L3 routing with static IP routes configured in an upstream Top of Rack (ToR) switch/router. Each cluster node is connected to the management network with a host IP. Additionally, each node uses a local 'l2bridge' network with a pod CIDR assigned. All pods on a given worker node will be connected to the pod CIDR subnet ('l2bridge' network). In order to enable network communication between pods running on different nodes, the upstream router has static routes configured with pod CIDR prefix ⇒ Host IP.
 
 The following example diagram illustrates the Windows Server networking setup for Kubernetes using Upstream L3 Routing Setup:
+
 ![K8s Cluster using L3 Routing with ToR](UpstreamRouting.png)
 
 #### Host-Gateway Topology
