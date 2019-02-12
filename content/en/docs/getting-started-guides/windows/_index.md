@@ -332,7 +332,7 @@ Windows Stats use a hybrid model: pod and container level stats come from CRI (v
 
 ### Container Resources
 
-Container resources (CPU and memory) could be set now for windows containers in v1.10.
+Starting with Kubernetes v1.10, you can set resources limits (CPU and memory) for Windows containers.
 
 {{< codenew file="windows/deploy-resource.yaml" >}}
 
