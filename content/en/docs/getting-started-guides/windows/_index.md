@@ -212,25 +212,25 @@ Installing OVS can be done either via the GUI dialogs or unattended. Adding a Wi
 ![OVN OVS Windows Installer](OVN_OVS_Windows_Installer.png)
 
 For an unattended installation please use the following command:
-```
+```cmd
 cmd /c 'msiexec /i openvswitch.msi ADDLOCAL="OpenvSwitchCLI,OpenvSwitchDriver,OVNHost" /qn'
 ```
 
 The installer propagates new environment variables. Please open a new command shell or logoff/logon to ensure the environment variables are refreshed.
 
 For overlay, OVS on Windows requires a transparent docker network to function properly. Please use the following to create a transparent docker network which will be used by OVS. From powershell:
-```
+```powershell
 docker network create -d transparent --gateway $GATEWAY_IP --subnet $SUBNET `
     -o com.docker.network.windowsshim.interface="$INTERFACE_ALIAS" external
 ```
 Where $SUBNET is the minion subnet which will be used to spawn pods on (the one which will be used by kubernetes), $GATEWAY_IP is the first IP of the $SUBNET and $INTERFACE_ALIAS is the interface used for creating the overlay tunnels (must have connectivity with the rests of the OVN hosts).
 Example:
-```
+```powershell
 docker network create -d transparent --gateway 10.0.1.1 --subnet 10.0.1.0/24 `
     -o com.docker.network.windowsshim.interface="Ethernet0" external
 ```
 After creating the docker network please run the next commands from powershell. (creates an OVS bridge, adds the interface under the bridge and enables the OVS forwarding switch extension)
-```
+```powershell
 $a = Get-NetAdapter | where Name -Match HNSTransparent
 Rename-NetAdapter $a[0].Name -NewName HNSTransparent
 Stop-Service ovs-vswitchd -force; Disable-VMSwitchExtension "Cloudbase Open vSwitch Extension";
@@ -245,7 +245,7 @@ Besides of the above, setting up a Windows host is the same as the Linux host. F
 **Windows CNI Setup**
 
 Today, Windows OVN&OVS CNI plugin is based on ovn_cni.exe which can be downloaded from [here](https://cloudbase.it/downloads/ovn_cni.exe). A sample of CNI config file is the following:
-```
+```json
 {
     "name": "net",
     "type": "ovn_cni.exe",
