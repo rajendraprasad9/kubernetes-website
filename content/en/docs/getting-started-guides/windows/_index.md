@@ -345,39 +345,51 @@ Hyper-V containers are supported as experimental in v1.10. To create a Hyper-V c
 
 {{< codenew file="windows/deploy-hyperv.yaml" >}}
 
-### Kubelet and kube-proxy can now run as Windows services
+### Running kubelet and kube-proxy as Windows services
 
-Starting with kubernetes v1.11, `kubelet` and `kube-proxy` can run as Windows services.
+{{< feature-state for_k8s_version="1.11" >}}
+You can run `kubelet` and `kube-proxy` as Windows services.
 
-This means that you can now register them as Windows services via `sc` command. More details about how to create Windows services with `sc` can be found [here](https://support.microsoft.com/en-us/help/251192/how-to-create-a-windows-service-by-using-sc-exe).
+This means that you can now register them as Windows services via `sc` command. For more detail, see Microsoft's documentation on [how to create Windows services with `sc`](https://support.microsoft.com/en-us/help/251192/how-to-create-a-windows-service-by-using-sc-exe).
 
-**Examples:**
+#### Examples (Powershell)
 
-To create the service:
+```powershell
+# Create a service:
+sc.exe create $component_name binPath= "<path_to_binary> --windows-service <other_args>"
+# NOTE: if the arguments contain spaces, it must be escaped.
+#       Example for kubelet:
+sc.exe create kubelet binPath= "C:\kubelet.exe --windows-service --hostname-override 'minion' --more-arguments-here"
+
+# Start the services.
+Start-Service kubelet; Start-Service kube-proxy
+
+# Stop the services. Use -Force option to make sure.
+Stop-Service kubelet ; Stop-Service kube-proxy
+
+# Check service status
+Get-Service kubelet; Get-Service kube-proxy;
 ```
-PS > sc.exe create <component_name> binPath= "<path_to_binary> --windows-service <other_args>"
-CMD > sc create <component_name> binPath= "<path_to_binary> --windows-service <other_args>"
+
+#### Examples (`cmd.exe`)
+
+```cmd
+REM Create a service:
+sc create $component_name binPath= "<path_to_binary> --windows-service <other_args>"
+REM NOTE: if the arguments contain spaces, it must be escaped.
+REM       Example for kubelet:
+sc create kubelet binPath= "C:\kubelet.exe --windows-service --hostname-override 'minion' --more-arguments-here"
+
+REM Start the services.
+net start kubelet && net start kube-proxy
+
+REM Stop the services.
+net stop kubelet && net stop kube-proxy
+
+REM Check service status.
+sc.exe queryex kubelet && sc qc kubelet && sc.exe queryex kube-proxy && sc.exe qc kube-proxy
 ```
-Please note that if the arguments contain spaces, it must be escaped. Example:
-```
-PS > sc.exe create kubelet binPath= "C:\kubelet.exe --windows-service --hostname-override 'minion' <other_args>"
-CMD > sc create kubelet binPath= "C:\kubelet.exe --windows-service --hostname-override 'minion' <other_args>"
-```
-To start the service:
-```
-PS > Start-Service kubelet; Start-Service kube-proxy
-CMD > net start kubelet && net start kube-proxy
-```
-To stop the service:
-```
-PS > Stop-Service kubelet (-Force); Stop-Service kube-proxy (-Force)
-CMD > net stop kubelet && net stop kube-proxy
-```
-To query the service:
-```
-PS > Get-Service kubelet; Get-Service kube-proxy;
-CMD > sc.exe queryex kubelet && sc qc kubelet && sc.exe queryex kube-proxy && sc.exe qc kube-proxy
-```
+
 
 ## Known Limitations for Windows Server Containers with v1.9
 
