@@ -87,8 +87,8 @@ To run Windows Server Containers on Kubernetes, you'll need to set up both your 
 ##### Linux Host Setup
 
 1. Linux hosts should be setup according to their respective distro documentation and the requirements of the Kubernetes version you will be using.
-2. Configure Linux Master node using steps [here](https://github.com/MicrosoftDocs/Virtualization-Documentation/blob/live/virtualization/windowscontainers/kubernetes/creating-a-linux-master.md)
-3. [Optional] CNI network plugin installed.
+2. Follow [Microsoft's guidelines](https://github.com/MicrosoftDocs/Virtualization-Documentation/blob/live/virtualization/windowscontainers/kubernetes/creating-a-linux-master.md) to configure a Linux master node that's suitable for a mixed-OS cluster.
+3. [Optional] Install CNI network plugin.
 
 ##### Windows Host Setup
 
