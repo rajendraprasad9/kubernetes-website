@@ -93,20 +93,20 @@ To run Windows Server Containers on Kubernetes, you'll need to set up both your 
 
 ##### Windows Host Setup
 
-
-1. Windows Server container host running the required Windows Server and Docker versions. Follow the setup instructions outlined by this help topic: https://docs.microsoft.com/en-us/virtualization/windowscontainers/quick-start/quick-start-windows-server.
-2. [Get Windows Binaries](#get-windows-binaries) kubelet.exe, kube-proxy.exe, and kubectl.exe using instructions
+1. Windows Server container host running the required Windows Server and Docker versions. You can follow the [quick start setup instructions](https://docs.microsoft.com/en-us/virtualization/windowscontainers/quick-start/quick-start-windows-server) from Microsoft
+2. [Get Windows binaries](#get-windows-binaries): `kubelet.exe`, `kube-proxy.exe`, and `kubectl.exe`
 3. Copy Node spec file (kube config) from Linux master node with X.509 keys
-4. Create the HNS Network, ensure the correct CNI network config, and start kubelet.exe using this script [start-kubelet.ps1](https://github.com/Microsoft/SDN/blob/master/Kubernetes/windows/start-kubelet.ps1)
-5. Start kube-proxy using this script [start-kubeproxy.ps1](https://github.com/Microsoft/SDN/blob/master/Kubernetes/windows/start-kubeproxy.ps1)
-6. [Only required for #2 Host-Gateway mode] Add static routes on Windows host using this script [AddRoutes.ps1](https://github.com/Microsoft/SDN/blob/master/Kubernetes/windows/AddRoutes.ps1)
+4. Create the HNS Network, ensure the correct CNI network config, and start `kubelet.exe` using the [start-kubelet.ps1](https://github.com/Microsoft/SDN/blob/master/Kubernetes/windows/start-kubelet.ps1) script
+5. Start `kube-proxy` using [start-kubeproxy.ps1](https://github.com/Microsoft/SDN/blob/master/Kubernetes/windows/start-kubeproxy.ps1)
+6. [Only required for #2 Host-Gateway mode] Add static routes on Windows host using [AddRoutes.ps1](https://github.com/Microsoft/SDN/blob/master/Kubernetes/windows/AddRoutes.ps1)
 
 More detailed instructions can be found [here](https://github.com/MicrosoftDocs/Virtualization-Documentation/blob/live/virtualization/windowscontainers/kubernetes/getting-started-kubernetes-windows.md).
 
-**Windows CNI Config Example**
+###### Windows CNI Config Example
+
 Today, Windows CNI plugin is based on wincni.exe code with the following example, configuration file. This is based on the ToR example diagram shown above, specifying the configuration to apply to Windows node-1. Of special interest is Windows node-1 pod CIDR (10.10.187.64/26) and the associated gateway of cbr0 (10.10.187.66). The exception list is specifying the Service CIDR (11.0.0.0/8), Cluster CIDR (10.10.0.0/16), and Management (or Host) CIDR (10.127.132.128/25).
 
-Note: this file assumes that a user previous created 'l2bridge' host networks on each Windows node using `<Verb>-HNSNetwork` cmdlets as shown in the `start-kubelet.ps1` and `start-kubeproxy.ps1` scripts linked above
+Note: this file assumes that a user previous created 'l2bridge' host networks on each Windows node using `<Verb>-HNSNetwork` cmdlets as shown in the `start-kubelet.ps1` and `start-kubeproxy.ps1` scripts mentioned above.
 
 ```json
 {
@@ -203,21 +203,23 @@ Adding a Linux minion is also out of scope and you can read it here: [Linux mini
 
 Adding a Windows minion requires you to install OVS and OVN binaries. Windows Server container host running the required Windows Server and Docker versions. Follow the setup instructions outlined by [this help topic](https://docs.microsoft.com/en-us/virtualization/windowscontainers/quick-start/quick-start-windows-server). This type of deployment is supported starting with Windows Server 2016 RTM.
 
-Compiling OVS and generating the installer will not be treated in this document. For a step by step instruction please visit [this link](http://docs.openvswitch.org/en/latest/intro/install/windows/#open-vswitch-on-windows).
-For a prebuilt certified installer please visit [this link](https://cloudbase.it/openvswitch/#download) and download the latest version of it.
+You can install OpenVSwitch using a prebuilt, certified [installer tool](https://cloudbase.it/openvswitch/#download) or by following the [official Windows guide](http://docs.openvswitch.org/en/latest/intro/install/windows/#open-vswitch-on-windows). This guide assumes you're using the prebuilt certified installer.
 
-The following guide uses the prebuilt certified installer.
-
+<<<<<<< HEAD
 Installing OVS can be done either via the GUI dialogs or unattended. Adding a Windows host to your setup requires you to have `OVN Host` together with the default installation features. Below is the dialog image on what needs to be installed:
 
 ![OVN OVS Windows Installer](OVN_OVS_Windows_Installer.png)
 
-For an unattended installation please use the following command:
+For an unattended installation, run:
 ```cmd
 cmd /c 'msiexec /i openvswitch.msi ADDLOCAL="OpenvSwitchCLI,OpenvSwitchDriver,OVNHost" /qn'
 ```
 
-The installer propagates new environment variables. Please open a new command shell or logoff/logon to ensure the environment variables are refreshed.
+For a GUI setup, you need to install **OVN Host** alongside the default installation features. This diagram shows what you should select:
+
+![OVN OVS Windows Installer](OVN_OVS_Windows_Installer.png)
+
+The installer propagates new environment variables. To make sure these are up to date, please open a new command shell or log out and back in again.
 
 For overlay, OVS on Windows requires a transparent docker network to function properly. Please use the following to create a transparent docker network which will be used by OVS. From powershell:
 ```powershell
@@ -241,11 +243,11 @@ ovs-vsctl --no-wait add-port br-ex HNSTransparent -- set interface HNSTransparen
 ovs-vsctl --no-wait add-port br-ex $INTERFACE_ALIAS
 Enable-VMSwitchExtension "Cloudbase Open vSwitch Extension"; sleep 2; Restart-Service ovs-vswitchd
 ```
-Besides of the above, setting up a Windows host is the same as the Linux host. Follow the steps from [here](https://github.com/openvswitch/ovn-kubernetes#k8s-minion-node-initializations).
+Besides of the above, setting up a Windows host is the same as the Linux host, and you can follow the main OVN advice on [initializing minion nodes](https://github.com/openvswitch/ovn-kubernetes#minion-node-initialization).
 
-**Windows CNI Setup**
+##### Windows CNI Setup
 
-Today, Windows OVN&OVS CNI plugin is based on ovn_cni.exe which can be downloaded from [here](https://cloudbase.it/downloads/ovn_cni.exe). A sample of CNI config file is the following:
+Today, Windows OVN&OVS CNI plugin is based on [`ovn_cni.exe`](https://cloudbase.it/downloads/ovn_cni.exe) (direct download link). A sample of CNI config file is the following:
 ```json
 {
     "name": "net",
@@ -261,7 +263,7 @@ Today, Windows OVN&OVS CNI plugin is based on ovn_cni.exe which can be downloade
 ```
 Where `$SUBNET` is the subnet that was used in the previous ```docker network create``` command.
 
-You can read more for specific cloud services in third-party detailed guides for [deploying OVN on Google Compute Engine](https://github.com/apprenda/kubernetes-ovn-heterogeneous-cluster#heterogeneous-kubernetes-cluster-on-top-of-ovn) (GCE) or [deploying OVN on Amazon Web Services](https://github.com/justeat/kubernetes-windows-aws-ovs#kubernetes-on-windows-in-aws-using-ovn) (AWS).
+You can read more on specific cloud services in third-party detailed guides for [deploying OVN on Google Compute Engine](https://github.com/apprenda/kubernetes-ovn-heterogeneous-cluster#heterogeneous-kubernetes-cluster-on-top-of-ovn) (GCE) or [deploying OVN on Amazon Web Services](https://github.com/justeat/kubernetes-windows-aws-ovs#kubernetes-on-windows-in-aws-using-ovn) (AWS).
 
 ## Starting the Cluster
 To start your cluster, you'll need to start both the Linux-based Kubernetes control plane, and the Windows Server-based Kubernetes node components (kubelet and kube-proxy). For the OVS & OVN only the kubelet is required.
